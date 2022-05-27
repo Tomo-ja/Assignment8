@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "02c7462677d6be90b8b889d070a2b3e6-olympic-village-roti.jpeg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
