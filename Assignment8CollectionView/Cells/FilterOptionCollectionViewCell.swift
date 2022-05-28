@@ -8,12 +8,39 @@
 import UIKit
 
 class FilterOptionCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var filterOptionButton: UIButton!
     
-    var filterOption: Category? = nil{
-        didSet{
-            guard let filterOption = filterOption else {return}
-            filterOptionButton.setTitle("\(filterOption)", for: .normal)
-        }
+    static let reuseIdentifier = "filterOptionCell"
+    
+    var filterButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.configuration = .filled()
+        button.backgroundColor = .white
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        return button
+    }()
+    
+    override init(frame: CGRect){
+        super.init(frame: frame)
+        
+        filterButton.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(filterButton)
+        NSLayoutConstraint.activate([
+            filterButton.topAnchor.constraint(equalTo: topAnchor),
+            filterButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            filterButton.leadingAnchor.constraint(equalTo: leadingAnchor),
+            filterButton.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configureCell(filterOption: FilterCategory){
+        filterButton.setTitle(filterOption.name, for: .normal)
     }
 }
+
