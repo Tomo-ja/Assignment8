@@ -12,7 +12,6 @@ class FilterOptionCollectionViewCell: UICollectionViewCell {
     
     static let reuseIdentifier = "filterOptionCell"
     
-    
     var filterButton: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = .white
@@ -41,7 +40,7 @@ class FilterOptionCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(filterOption: FilterCategory){
+    func configureCell(filterOption: FilterOption){
         filterButton.setTitle(filterOption.name, for: .normal)
     }
 

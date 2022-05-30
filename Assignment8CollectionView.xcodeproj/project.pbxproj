@@ -17,7 +17,7 @@
 		E5EA0CFA2841409C004455FF /* RestaurantItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EA0CF92841409C004455FF /* RestaurantItemCollectionViewCell.swift */; };
 		E5EA0D03284174CA004455FF /* MainCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EA0D02284174CA004455FF /* MainCollectionViewController.swift */; };
 		E5EA0D0528428E34004455FF /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EA0D0428428E34004455FF /* Item.swift */; };
-		E5EA0D0828429047004455FF /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EA0D0728429046004455FF /* Category.swift */; };
+		E5EA0D0A284569D1004455FF /* FilterOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5EA0D09284569D1004455FF /* FilterOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,7 @@
 		E5EA0CF92841409C004455FF /* RestaurantItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		E5EA0D02284174CA004455FF /* MainCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewController.swift; sourceTree = "<group>"; };
 		E5EA0D0428428E34004455FF /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		E5EA0D0728429046004455FF /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		E5EA0D09284569D1004455FF /* FilterOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOptions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +101,7 @@
 			children = (
 				E5EA0D0428428E34004455FF /* Item.swift */,
 				E5EA0CF228413274004455FF /* Restaurant.swift */,
-				E5EA0D0728429046004455FF /* Category.swift */,
+				E5EA0D09284569D1004455FF /* FilterOptions.swift */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -183,8 +183,8 @@
 				E5EA0CF828414085004455FF /* FilterOptionCollectionViewCell.swift in Sources */,
 				E5EA0D0528428E34004455FF /* Item.swift in Sources */,
 				E5EA0CE12841322D004455FF /* SceneDelegate.swift in Sources */,
+				E5EA0D0A284569D1004455FF /* FilterOptions.swift in Sources */,
 				E5EA0D03284174CA004455FF /* MainCollectionViewController.swift in Sources */,
-				E5EA0D0828429047004455FF /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

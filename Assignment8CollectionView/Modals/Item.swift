@@ -9,10 +9,10 @@ import Foundation
 
 enum Item: Hashable{
     
-    case filter(FilterCategory)
+    case filter(FilterOption)
     case restaurant(Restaurant)
     
-    var filter: FilterCategory? {
+    var filter: FilterOption? {
         if case .filter(let filter) = self {
             return filter
         }else{
@@ -28,7 +28,14 @@ enum Item: Hashable{
         }
     }
     
-    static let filterItems: [Item] = Category.allCases.map { .filter(FilterCategory(name: "\($0)"))}
+    static let filterItems: [Item] = {
+        let priceRange: [Item] = PriceRange.allCases.map{ .filter(FilterOption(name: "\($0.rawValue)", kind: .price))}
+        let timeSute: [Item] = SuitedTime.allCases.map{ .filter(FilterOption(name: "\($0.rawValue)", kind: .time))}
+        let catetory: [Item] = Category.allCases.map { .filter(FilterOption(name: "\($0.rawValue)", kind: .category))}
+        
+        return (priceRange + timeSute + catetory)
+    }()
+    
     static let restaurantItem: [Item] = [
         .restaurant(Restaurant(id: 1, name: "Saku", image: "saku", category: .Japanense, price: .middle, suitedTime: .dinner)),
         .restaurant(Restaurant(id: 2, name: "Jam Cafe", image: "jamCafe", category: .Cafe, price: .middle, suitedTime: .branch)),

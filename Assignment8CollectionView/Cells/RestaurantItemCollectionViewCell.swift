@@ -32,7 +32,6 @@ class RestaurantItemCollectionViewCell: UICollectionViewCell {
     
     var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.widthAnchor.constraint(equalToConstant: 190).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 126).isActive = true
 
         return imageView

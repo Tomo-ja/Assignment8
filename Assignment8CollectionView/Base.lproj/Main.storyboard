@@ -48,21 +48,7 @@
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="mHx-0p-NJ9">
                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9rS-IW-XTl">
-                                            <rect key="frame" x="31" y="48" width="67" height="31"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="filled" title="Button">
-                                                <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <color key="baseBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </buttonConfiguration>
-                                        </button>
-                                    </subviews>
                                 </collectionViewCellContentView>
-                                <connections>
-                                    <outlet property="filterOptionButton" destination="9rS-IW-XTl" id="Adv-FZ-MVH"/>
-                                </connections>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="RestaurantCell" id="U2S-zb-ag8" customClass="RestaurantItemCollectionViewCell" customModule="Assignment8CollectionView" customModuleProvider="target">
                                 <rect key="frame" x="138" y="0.0" width="190" height="197"/>
@@ -70,60 +56,9 @@
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Kap-Oa-e9S">
                                     <rect key="frame" x="0.0" y="0.0" width="190" height="197"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H14-vE-kba">
-                                            <rect key="frame" x="0.0" y="0.0" width="190" height="126.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="H14-vE-kba" secondAttribute="height" multiplier="3:2" id="j5Q-a6-bd8"/>
-                                            </constraints>
-                                        </imageView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="kdO-Cl-RA6">
-                                            <rect key="frame" x="8" y="136.5" width="174" height="36.5"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Mq7-yp-OaC">
-                                                    <rect key="frame" x="0.0" y="0.0" width="136" height="36.5"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Restaurant Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTw-Da-CFC">
-                                                            <rect key="frame" x="0.0" y="0.0" width="136" height="17"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Detail list" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dev-lN-cD6">
-                                                            <rect key="frame" x="0.0" y="22" width="136" height="14.5"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$$$" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4g0-k6-RcM">
-                                                    <rect key="frame" x="146" y="0.0" width="28" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </stackView>
-                                    </subviews>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <constraints>
-                                        <constraint firstItem="kdO-Cl-RA6" firstAttribute="centerX" secondItem="Kap-Oa-e9S" secondAttribute="centerX" id="6br-25-ByS"/>
-                                        <constraint firstAttribute="trailing" secondItem="H14-vE-kba" secondAttribute="trailing" id="DXg-uP-Gi3"/>
-                                        <constraint firstItem="kdO-Cl-RA6" firstAttribute="top" secondItem="H14-vE-kba" secondAttribute="bottom" constant="10" id="Ny1-bc-5Mh"/>
-                                        <constraint firstItem="kdO-Cl-RA6" firstAttribute="leading" secondItem="Kap-Oa-e9S" secondAttribute="leading" constant="8" id="QYe-DM-V43"/>
-                                        <constraint firstItem="H14-vE-kba" firstAttribute="top" secondItem="Kap-Oa-e9S" secondAttribute="top" id="YXO-uJ-NZS"/>
-                                        <constraint firstAttribute="trailing" secondItem="kdO-Cl-RA6" secondAttribute="trailing" constant="8" id="mQm-qf-5Ex"/>
-                                        <constraint firstItem="H14-vE-kba" firstAttribute="leading" secondItem="Kap-Oa-e9S" secondAttribute="leading" id="xen-b5-OSy"/>
-                                    </constraints>
                                 </collectionViewCellContentView>
                                 <size key="customSize" width="190" height="197"/>
-                                <connections>
-                                    <outlet property="detailLabel" destination="dev-lN-cD6" id="mdY-iM-XpT"/>
-                                    <outlet property="nameLabel" destination="qTw-Da-CFC" id="dhf-mW-hxj"/>
-                                    <outlet property="previewImageView" destination="H14-vE-kba" id="ATx-GA-nE6"/>
-                                    <outlet property="priceLabel" destination="4g0-k6-RcM" id="r7v-Zt-9OI"/>
-                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>

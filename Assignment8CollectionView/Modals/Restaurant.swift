@@ -15,18 +15,29 @@ struct Restaurant: Hashable{
     var price: PriceRange
     var suitedTime: SuitedTime
     
-    
-    enum PriceRange: String{
-        case low = "$"
-        case middle = "$$"
-        case expensive = "$$$"
-    }
-    
-    enum SuitedTime{
-        case branch, dinner, allDay
-    }
 }
 
-enum Category: CaseIterable{
-    case Japanense, Korean, Cafe, Canadian, Mexican, Bar, Amerian, Seafood, Italian
+
+enum PriceRange: String, CaseIterable{
+    case low = "$"
+    case middle = "$$"
+    case expensive = "$$$"
+}
+
+enum SuitedTime: String, CaseIterable{
+    case branch = "Branch"
+    case dinner = "Dinner"
+    case allDay = "All Day"
+}
+
+enum Category: String, CaseIterable{
+    case Japanense = "Japanense"
+    case Korean = "Korean"
+    case Cafe = "Cafe"
+    case Canadian = "Canadian"
+    case Mexican = "Mexican"
+    case Bar = "Bar"
+    case Amerian = "American"
+    case Seafood = "Seafood"
+    case Italian = "Italian"
 }

@@ -15,7 +15,7 @@ class MainCollectionViewController: UICollectionViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     var sections = [Section]()
-    var filters: [Category] = []
+    var filters: [FilterOption] = []
     var filteredRestaurants = Item.restaurantItem
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
 
@@ -96,15 +96,42 @@ class MainCollectionViewController: UICollectionViewController {
         filteredRestaurants = Item.restaurantItem
     }
     
-    func extendRestaurants(by filterOption: Category){
-        let addtional = Item.restaurantItem.filter{ $0.restaurant!.category == filterOption }
-        filteredRestaurants += addtional
+    func extendRestaurants(by filterOption: FilterOption){
+        var addItem: [Item] = []
+        switch filterOption.kind{
+        case .price:
+            addItem = Item.restaurantItem.filter{ $0.restaurant!.price.rawValue == filterOption.name }
+        case .time:
+            addItem = Item.restaurantItem.filter{ $0.restaurant!.suitedTime.rawValue == filterOption.name }
+        case .category:
+            addItem = Item.restaurantItem.filter{ $0.restaurant!.category.rawValue == filterOption.name }
+        }
+        filteredRestaurants = Array(Set(filteredRestaurants + addItem))
         filteredRestaurants = filteredRestaurants.sorted(by: <)
-        
     }
     
-    func reduceRestaurants(by filterOption: Category){
-        filteredRestaurants = filteredRestaurants.filter{ $0.restaurant!.category == filterOption }
+    func reduceRestaurants(by filterOption: FilterOption, adddingFirst: Bool){
+        switch filterOption.kind{
+        case .price:
+            if adddingFirst{
+                filteredRestaurants = filteredRestaurants.filter{ $0.restaurant!.price.rawValue == filterOption.name}
+            }else{
+                filteredRestaurants = filteredRestaurants.filter{ $0.restaurant!.price.rawValue != filterOption.name}
+            }
+        case .time:
+            if adddingFirst{
+                filteredRestaurants = filteredRestaurants.filter{ $0.restaurant!.suitedTime.rawValue == filterOption.name}
+            }else{
+                filteredRestaurants = filteredRestaurants.filter{ $0.restaurant!.suitedTime.rawValue != filterOption.name}
+            }
+
+        case .category:
+            if adddingFirst{
+                filteredRestaurants = filteredRestaurants.filter{ $0.restaurant!.category.rawValue == filterOption.name}
+            }else{
+                filteredRestaurants = filteredRestaurants.filter{ $0.restaurant!.category.rawValue != filterOption.name}
+            }
+        }
     }
 
     func createSnapshot() -> Snapshot{
@@ -115,23 +142,22 @@ class MainCollectionViewController: UICollectionViewController {
         
         return snapshot
     }
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard indexPath.section == 0 else {return}
         if let cell = collectionView.cellForItem(at: indexPath) as? FilterOptionCollectionViewCell{
             cell.filterButton.backgroundColor = .black
             cell.filterButton.setTitleColor(.white, for: .normal)
-            filters.append(Category.allCases[indexPath.row])
-            
+            filters.append(Item.filterItems[indexPath.row].filter!)
             switch filters.count{
                 case 1:
-                reduceRestaurants(by: filters.first!)
-                case Category.allCases.count:
+                reduceRestaurants(by: filters.first!, adddingFirst: true)
+            case Item.filterItems.count:
                     backAllRestaurants()
                 default:
                 extendRestaurants(by: filters.last!)
             }
             let snapshot = createSnapshot()
-            // need to change display
             dataSource.apply(snapshot, animatingDifferences: true)
         }
     }
@@ -140,16 +166,13 @@ class MainCollectionViewController: UICollectionViewController {
         if let cell = collectionView.cellForItem(at: indexPath) as? FilterOptionCollectionViewCell{
             cell.filterButton.backgroundColor = .white
             cell.filterButton.setTitleColor(.black, for: .normal)
-            filters = filters.filter{ $0 != Category.allCases[indexPath.row]}
-         
+            filters = filters.filter{ $0 != Item.filterItems[indexPath.row].filter!}
             if filters.count == 0 {
                 backAllRestaurants()
             }else{
-                reduceRestaurants(by: Category.allCases[indexPath.row])
+                reduceRestaurants(by: Item.filterItems[indexPath.row].filter!, adddingFirst: false)
             }
-            
             let snapshot = createSnapshot()
-            // need to change display
             dataSource.apply(snapshot, animatingDifferences: true)
         }
     }
