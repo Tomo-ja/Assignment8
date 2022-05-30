@@ -17,7 +17,7 @@ class MainCollectionViewController: UICollectionViewController {
     var sections = [Section]()
     var filters: [Category] = []
     var filteredRestaurants = Item.restaurantItem
-    var filteredRestaurantsSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,12 +56,9 @@ class MainCollectionViewController: UICollectionViewController {
             }
         })
         
-        filteredRestaurantsSnapshot.appendSections([.filterOption, .restaurantList])
-        filteredRestaurantsSnapshot.appendItems(Item.filterItems, toSection: .filterOption)
-        filteredRestaurantsSnapshot.appendItems(filteredRestaurants, toSection: .restaurantList)
-        sections = filteredRestaurantsSnapshot.sectionIdentifiers
-        
-        dataSource.apply(filteredRestaurantsSnapshot)
+        let snapshot = createSnapshot()
+        sections = snapshot.sectionIdentifiers
+        dataSource.apply(snapshot)
     }
     
     func createLayout() -> UICollectionViewLayout{
@@ -72,7 +69,7 @@ class MainCollectionViewController: UICollectionViewController {
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .absolute(50))
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .absolute(50))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
                 
@@ -109,8 +106,15 @@ class MainCollectionViewController: UICollectionViewController {
     func reduceRestaurants(by filterOption: Category){
         filteredRestaurants = filteredRestaurants.filter{ $0.restaurant!.category == filterOption }
     }
-    
 
+    func createSnapshot() -> Snapshot{
+        var snapshot = Snapshot()
+        snapshot.appendSections([.filterOption, .restaurantList])
+        snapshot.appendItems(Item.filterItems, toSection: .filterOption)
+        snapshot.appendItems(filteredRestaurants, toSection: .restaurantList)
+        
+        return snapshot
+    }
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard indexPath.section == 0 else {return}
         if let cell = collectionView.cellForItem(at: indexPath) as? FilterOptionCollectionViewCell{
@@ -126,9 +130,9 @@ class MainCollectionViewController: UICollectionViewController {
                 default:
                 extendRestaurants(by: filters.last!)
             }
-            
+            let snapshot = createSnapshot()
             // need to change display
-            dataSource.apply(filteredRestaurantsSnapshot, animatingDifferences: true)
+            dataSource.apply(snapshot, animatingDifferences: true)
         }
     }
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -144,8 +148,9 @@ class MainCollectionViewController: UICollectionViewController {
                 reduceRestaurants(by: Category.allCases[indexPath.row])
             }
             
+            let snapshot = createSnapshot()
             // need to change display
-            dataSource.apply(filteredRestaurantsSnapshot, animatingDifferences: true)
+            dataSource.apply(snapshot, animatingDifferences: true)
         }
     }
 }

@@ -25,7 +25,6 @@ struct Restaurant: Hashable{
     enum SuitedTime{
         case branch, dinner, allDay
     }
-
 }
 
 enum Category: CaseIterable{

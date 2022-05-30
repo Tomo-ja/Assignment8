@@ -16,6 +16,7 @@ class FilterOptionCollectionViewCell: UICollectionViewCell {
     var filterButton: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = .white
+        button.titleLabel!.font = UIFont.systemFont(ofSize: 10)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
