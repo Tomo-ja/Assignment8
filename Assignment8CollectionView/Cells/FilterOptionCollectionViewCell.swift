@@ -7,17 +7,19 @@
 
 import UIKit
 
+
 class FilterOptionCollectionViewCell: UICollectionViewCell {
     
     static let reuseIdentifier = "filterOptionCell"
     
+    
     var filterButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.configuration = .filled()
+        let button = UIButton(type: .custom)
         button.backgroundColor = .white
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
+        button.isUserInteractionEnabled = false
         return button
     }()
     
@@ -32,7 +34,6 @@ class FilterOptionCollectionViewCell: UICollectionViewCell {
             filterButton.leadingAnchor.constraint(equalTo: leadingAnchor),
             filterButton.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-        
     }
     
     required init?(coder: NSCoder) {
@@ -42,5 +43,6 @@ class FilterOptionCollectionViewCell: UICollectionViewCell {
     func configureCell(filterOption: FilterCategory){
         filterButton.setTitle(filterOption.name, for: .normal)
     }
+
 }
 

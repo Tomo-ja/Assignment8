@@ -8,18 +8,22 @@
 import UIKit
 
 class MainCollectionViewController: UICollectionViewController {
-    
+
     enum Section: Hashable{
         case filterOption, restaurantList
     }
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     var sections = [Section]()
+    var filters: [Category] = []
+    var filteredRestaurants = Item.restaurantItem
+    var filteredRestaurantsSnapshot = NSDiffableDataSourceSnapshot<Section, Item>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.backgroundColor = .darkGray
         
+        collectionView.allowsMultipleSelection = true
         collectionView.collectionViewLayout = createLayout()
         
         collectionView.register(FilterOptionCollectionViewCell.self, forCellWithReuseIdentifier: FilterOptionCollectionViewCell.reuseIdentifier)
@@ -40,7 +44,6 @@ class MainCollectionViewController: UICollectionViewController {
             switch section{
             case .filterOption:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterOptionCollectionViewCell.reuseIdentifier, for: indexPath) as! FilterOptionCollectionViewCell
-                
                 cell.configureCell(filterOption: item.filter!)
                 return cell
             case .restaurantList:
@@ -53,13 +56,12 @@ class MainCollectionViewController: UICollectionViewController {
             }
         })
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
-        snapshot.appendSections([.filterOption, .restaurantList])
-        snapshot.appendItems(Item.filterItems, toSection: .filterOption)
-        snapshot.appendItems(Item.restaurantItem, toSection: .restaurantList)
-        sections = snapshot.sectionIdentifiers
+        filteredRestaurantsSnapshot.appendSections([.filterOption, .restaurantList])
+        filteredRestaurantsSnapshot.appendItems(Item.filterItems, toSection: .filterOption)
+        filteredRestaurantsSnapshot.appendItems(filteredRestaurants, toSection: .restaurantList)
+        sections = filteredRestaurantsSnapshot.sectionIdentifiers
         
-        dataSource.apply(snapshot)
+        dataSource.apply(filteredRestaurantsSnapshot)
     }
     
     func createLayout() -> UICollectionViewLayout{
@@ -69,7 +71,6 @@ class MainCollectionViewController: UICollectionViewController {
             case .filterOption:
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .absolute(50))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
@@ -94,37 +95,57 @@ class MainCollectionViewController: UICollectionViewController {
         }
         return layout
     }
+    func backAllRestaurants(){
+        filteredRestaurants = Item.restaurantItem
+    }
     
-    func generateLayoutOfRestaurant() -> UICollectionViewLayout{
-        let spacing: CGFloat = 10
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: spacing)
+    func extendRestaurants(by filterOption: Category){
+        let addtional = Item.restaurantItem.filter{ $0.restaurant!.category == filterOption }
+        filteredRestaurants += addtional
+        filteredRestaurants = filteredRestaurants.sorted(by: <)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(200))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-        group.contentInsets = NSDirectionalEdgeInsets(top: spacing, leading: spacing, bottom: 0, trailing: 0)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        
-        return layout
     }
-
-    func generateLayoutOfFilterOptions() -> UICollectionViewLayout{
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 30)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        
-        return layout
+    
+    func reduceRestaurants(by filterOption: Category){
+        filteredRestaurants = filteredRestaurants.filter{ $0.restaurant!.category == filterOption }
     }
+    
 
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard indexPath.section == 0 else {return}
+        if let cell = collectionView.cellForItem(at: indexPath) as? FilterOptionCollectionViewCell{
+            cell.filterButton.backgroundColor = .black
+            cell.filterButton.setTitleColor(.white, for: .normal)
+            filters.append(Category.allCases[indexPath.row])
+            
+            switch filters.count{
+                case 1:
+                reduceRestaurants(by: filters.first!)
+                case Category.allCases.count:
+                    backAllRestaurants()
+                default:
+                extendRestaurants(by: filters.last!)
+            }
+            
+            // need to change display
+            dataSource.apply(filteredRestaurantsSnapshot, animatingDifferences: true)
+        }
+    }
+    override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard indexPath.section == 0 else {return}
+        if let cell = collectionView.cellForItem(at: indexPath) as? FilterOptionCollectionViewCell{
+            cell.filterButton.backgroundColor = .white
+            cell.filterButton.setTitleColor(.black, for: .normal)
+            filters = filters.filter{ $0 != Category.allCases[indexPath.row]}
+         
+            if filters.count == 0 {
+                backAllRestaurants()
+            }else{
+                reduceRestaurants(by: Category.allCases[indexPath.row])
+            }
+            
+            // need to change display
+            dataSource.apply(filteredRestaurantsSnapshot, animatingDifferences: true)
+        }
+    }
 }

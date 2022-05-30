@@ -8,6 +8,7 @@
 import Foundation
 
 struct Restaurant: Hashable{
+    var id: Int
     var name: String
     var image: String
     var category: Category
