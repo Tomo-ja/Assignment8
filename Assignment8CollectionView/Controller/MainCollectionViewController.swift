@@ -146,8 +146,6 @@ class MainCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard indexPath.section == 0 else {return}
         if let cell = collectionView.cellForItem(at: indexPath) as? FilterOptionCollectionViewCell{
-            cell.filterButton.backgroundColor = .black
-            cell.filterButton.setTitleColor(.white, for: .normal)
             filters.append(Item.filterItems[indexPath.row].filter!)
             switch filters.count{
                 case 1:
@@ -164,8 +162,6 @@ class MainCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard indexPath.section == 0 else {return}
         if let cell = collectionView.cellForItem(at: indexPath) as? FilterOptionCollectionViewCell{
-            cell.filterButton.backgroundColor = .white
-            cell.filterButton.setTitleColor(.black, for: .normal)
             filters = filters.filter{ $0 != Item.filterItems[indexPath.row].filter!}
             if filters.count == 0 {
                 backAllRestaurants()

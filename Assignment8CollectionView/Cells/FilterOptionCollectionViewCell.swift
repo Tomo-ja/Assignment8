@@ -23,6 +23,18 @@ class FilterOptionCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
+    override var isSelected: Bool {
+        didSet{
+            if isSelected {
+                filterButton.backgroundColor = .black
+                filterButton.setTitleColor(.white, for: .normal)
+            }else{
+                filterButton.backgroundColor = .white
+                filterButton.setTitleColor(.black, for: .normal)
+            }
+        }
+    }
+    
     override init(frame: CGRect){
         super.init(frame: frame)
         
@@ -44,5 +56,13 @@ class FilterOptionCollectionViewCell: UICollectionViewCell {
         filterButton.setTitle(filterOption.name, for: .normal)
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        if self.isSelected{
+            self.isSelected = true
+        }else{
+            self.isSelected = false
+        }
+    }
 }
 
